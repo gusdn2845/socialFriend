@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mappers.UserMapper">
+   <insert id="join">
+   		INSERT INTO users(userid, password, username, userage,usergender, useremail,regdate,enabled)
+   		VALUES(#{userid},#{password},#{username},#{userage},#{usergender},#{useremail},now(), 1)
+   </insert>
+   
+   <select id="get" resultType="com.board.domain.UserVO">
+   		SELECT * FROM users WHERE userid = #{userid}
+   </select>
+   
+   <select id="finduser" resultType="com.board.domain.UserVO">
+   		SELECT * FROM users WHERE userid = #{userid}
+   </select>
+   
+   <update id="update">
+   		UPDATE users SET password = #{password}, useremail = #{useremail} WHERE userid = #{userid}
+   </update>
+   
+   <update id="updateprofile">
+   		UPDATE users SET userprofile = #{userprofile} WHERE userid = #{userid}
+   </update>
+   
+   <insert id="friendReq">
+   		INSERT INTO friend(userID, friendID, addDate, avaliable)
+   		VALUES(#{userID}, #{friendID}, now(), 0)
+   </insert>
+   
+    <select id="friendReqList" resultType="com.board.domain.FriendDTO">
+   		SELECT * FROM friend WHERE friendID = #{name} AND avaliable = 0
+   </select>
+</mapper>

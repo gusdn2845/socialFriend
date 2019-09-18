@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mappers.FriendMapper">
+   <select id="finduser" resultType="com.board.domain.UserVO">
+   		SELECT * FROM users WHERE userid = #{userid}
+   </select>
+   
+   <insert id="friendReq">
+   		INSERT INTO friend(userID, friendID, addDate, avaliable)
+   		VALUES(#{userID}, #{friendID}, now(), 0)
+   </insert>
+   
+    <select id="friendReqList" resultType="com.board.domain.FriendDTO">
+   		SELECT * FROM friend WHERE friendID = #{name} AND avaliable = 0
+   </select>
+   
+   <select id="checkFriend" resultType="com.board.domain.FriendDTO">
+   		SELECT * FROM friend WHERE (friendID = #{friendID} AND userID = #{userID})
+   </select>
+   
+   <update id="friendAccept">
+   		UPDATE friend SET avaliable = 1 WHERE (friendID = #{name} AND userID = #{friendID})
+   </update>
+   
+   <delete id="friendRefusal">
+   		DELETE FROM friend WHERE (friendID = #{name} AND userID = #{friendID}) AND avaliable = 0
+   </delete>
+</mapper>

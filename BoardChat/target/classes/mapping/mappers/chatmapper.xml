@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.board.mappers.ChatMapper">
+	<insert id="chatSubmit">
+		INSERT INTO chat(fromName, toName, chatContent,chatTime)
+		VALUES(#{fromName},#{toName},#{chatContent},#{chatTime})
+	</insert>
+	
+	<select id="messageList" resultType="com.board.domain.ChatDTO">
+		SELECT * FROM chat WHERE
+			((fromName = #{fromName} AND toName = #{toName}) OR (fromName = #{toName} AND toName = #{fromName}))
+		AND chatID > #{chatID} ORDER BY chatTime
+	</select>
+	
+	<update id="messageRead">
+		UPDATE chat SET chatRead = 1 WHERE fromName = #{toName} AND toName = #{fromName}
+	</update>
+	
+	<select id="unread" resultType="com.board.domain.ChatDTO">
+		SELECT * FROM chat WHERE toName = #{name} AND chatRead = 0
+	</select>
+	
+	<select id="getBox" resultType="com.board.domain.ChatDTO">
+		SELECT * FROM chat WHERE chatID IN (SELECT MAX(chatID) FROM chat WHERE fromName = #{name} OR toName = #{name} GROUP BY fromName,toName) ORDER BY chatTime DESC
+	</select>
+	
+	<select id="getunread" resultType="com.board.domain.ChatDTO">
+		SELECT * FROM chat WHERE (toName = #{fromName} AND fromNAme = #{toName}) AND chatRead = 0 ORDER BY chatTime
+	</select>
+</mapper>
