@@ -1,0 +1,17 @@
+<Context path="/UserChat" docBase="www">
+	<Resource
+		name="jdbc/UserChat"
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/UserChat"
+		username="user"
+		password="1234"
+		logoutTimeout="10"
+		maxActive="10"
+		maxIdle="20"
+		maxWait="500"
+	/>
+	<ResourceLink type="javax.sql.DataSource" name="jdbc/UserChat"
+		global="jdbc/UserChat"/>
+</Context>
